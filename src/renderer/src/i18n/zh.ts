@@ -1,0 +1,72 @@
+export default {
+  nav: {
+    home: '首页',
+    singleNote: '听音训练',
+    chordTraining: '和弦听辨',
+    chordId: '和弦识别'
+  },
+  home: {
+    title: '耳朵训练器',
+    subtitle: '提升你的音高识别能力',
+    singleNote: '听音训练',
+    singleNoteDesc: '听单个音，在键盘上找到它',
+    chordTraining: '和弦听辨',
+    chordTrainingDesc: '听三和弦，识别组成音',
+    chordId: '和弦识别',
+    chordIdDesc: '选择音符，识别和弦名称'
+  },
+  training: {
+    instrument: '乐器',
+    piano: '钢琴',
+    guitar: '吉他',
+    piccolo: '短笛',
+    key: '调号',
+    major: '大调',
+    minor: '小调',
+    octaveRange: '音高范围',
+    allRandom: '完全随机',
+    start: '开始训练',
+    stop: '终止训练',
+    replay: '重听',
+    next: '下一题',
+    correct: '正确！',
+    incorrect: '错误',
+    correctAnswer: '正确答案',
+    yourAnswer: '你的答案',
+    submit: '提交',
+    playing: '播放中...',
+    waiting: '请选择...',
+    accuracy: '正确率',
+    history: '答题记录',
+    totalQuestions: '总题数',
+    correctCount: '正确数',
+    wrongRecords: '错题记录',
+    noRecords: '暂无记录',
+    question: '第 {{n}} 题'
+  },
+  chordId: {
+    title: '和弦识别',
+    selectedNotes: '已选音符',
+    chordName: '和弦名称',
+    unknown: '未知和弦',
+    noSelection: '请点击键盘选择音符',
+    voicing: '织体',
+    block: '柱式和弦',
+    arpQuarter: '分解（四分音符）',
+    arpEighth: '分解（八分音符）',
+    arpSixteenth: '分解（十六分音符）',
+    direction: '方向',
+    ascending: '上行',
+    descending: '下行',
+    ascDesc: '上至下往复',
+    descAsc: '下至上往复',
+    play: '播放',
+    reset: '重置',
+    history: '历史记录'
+  },
+  sidebar: {
+    collapse: '收起',
+    expand: '展开',
+    clear: '清空'
+  }
+}
