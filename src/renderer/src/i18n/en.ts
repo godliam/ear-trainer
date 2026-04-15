@@ -1,0 +1,72 @@
+export default {
+  nav: {
+    home: 'Home',
+    singleNote: 'Note Training',
+    chordTraining: 'Chord Training',
+    chordId: 'Chord ID'
+  },
+  home: {
+    title: 'Ear Trainer',
+    subtitle: 'Improve your pitch recognition',
+    singleNote: 'Note Training',
+    singleNoteDesc: 'Listen to a single note and find it on the keyboard',
+    chordTraining: 'Chord Training',
+    chordTrainingDesc: 'Listen to a triad and identify the notes',
+    chordId: 'Chord Identification',
+    chordIdDesc: 'Select notes and identify chord names'
+  },
+  training: {
+    instrument: 'Instrument',
+    piano: 'Piano',
+    guitar: 'Guitar',
+    piccolo: 'Piccolo',
+    key: 'Key',
+    major: 'Major',
+    minor: 'Minor',
+    octaveRange: 'Octave Range',
+    allRandom: 'All Random',
+    start: 'Start Training',
+    stop: 'Stop',
+    replay: 'Replay',
+    next: 'Next',
+    correct: 'Correct!',
+    incorrect: 'Incorrect',
+    correctAnswer: 'Correct answer',
+    yourAnswer: 'Your answer',
+    submit: 'Submit',
+    playing: 'Playing...',
+    waiting: 'Select a note...',
+    accuracy: 'Accuracy',
+    history: 'History',
+    totalQuestions: 'Total',
+    correctCount: 'Correct',
+    wrongRecords: 'Wrong Answers',
+    noRecords: 'No records yet',
+    question: 'Q{{n}}'
+  },
+  chordId: {
+    title: 'Chord Identification',
+    selectedNotes: 'Selected Notes',
+    chordName: 'Chord Name',
+    unknown: 'Unknown chord',
+    noSelection: 'Click keys to select notes',
+    voicing: 'Voicing',
+    block: 'Block Chord',
+    arpQuarter: 'Arpeggio (Quarter)',
+    arpEighth: 'Arpeggio (Eighth)',
+    arpSixteenth: 'Arpeggio (16th)',
+    direction: 'Direction',
+    ascending: 'Ascending',
+    descending: 'Descending',
+    ascDesc: 'Asc-Desc Round Trip',
+    descAsc: 'Desc-Asc Round Trip',
+    play: 'Play',
+    reset: 'Reset',
+    history: 'History'
+  },
+  sidebar: {
+    collapse: 'Collapse',
+    expand: 'Expand',
+    clear: 'Clear'
+  }
+}
