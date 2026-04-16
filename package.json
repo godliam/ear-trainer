@@ -1,12 +1,15 @@
 {
   "name": "ear-trainer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Ear training application for pitch recognition",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
-    "preview": "electron-vite preview"
+    "preview": "electron-vite preview",
+    "pack": "electron-builder --dir",
+    "dist:win": "electron-builder --win --x64 --publish=never",
+    "dist:mac": "electron-builder --mac --publish=never"
   },
   "dependencies": {
     "i18next": "^23.16.0",
@@ -23,8 +26,41 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "electron": "^33.2.0",
+    "electron-builder": "^26.8.1",
     "electron-vite": "^2.3.0",
     "typescript": "^5.5.3"
   },
-  "private": true
+  "private": true,
+  "build": {
+    "appId": "com.eartrainer.app",
+    "productName": "Ear Trainer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-win-x64.exe"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.education",
+      "artifactName": "${productName}-${version}-mac-${arch}.zip"
+    }
+  }
 }
