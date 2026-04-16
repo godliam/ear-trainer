@@ -15,6 +15,28 @@ export default defineConfig({
         '@': resolve('src/renderer/src')
       }
     },
-    plugins: [react()]
+    plugins: [react()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split vendor chunks for better caching
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'tone': ['tone'],
+            'vexflow': ['vexflow']
+          }
+        }
+      },
+      // Enable minification and compression
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+      // Chunk size warning limit
+      chunkSizeWarningLimit: 1000
+    }
   }
 })

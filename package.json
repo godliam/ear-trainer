@@ -1,6 +1,6 @@
 {
   "name": "ear-trainer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ear training application for pitch recognition",
   "main": "./out/main/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "electron": "^33.2.0",
     "electron-builder": "^26.8.1",
     "electron-vite": "^2.3.0",
+    "terser": "^5.46.1",
     "typescript": "^5.5.3"
   },
   "private": true,
@@ -44,19 +45,22 @@
     "win": {
       "target": [
         {
-          "target": "portable",
-          "arch": ["x64"]
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
         }
-      ]
-    },
-    "portable": {
-      "artifactName": "${productName}-${version}-win-x64.exe"
+      ],
+      "artifactName": "${productName}-${version}-win-x64.zip"
     },
     "mac": {
       "target": [
         {
           "target": "zip",
-          "arch": ["x64", "arm64"]
+          "arch": [
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "category": "public.app-category.education",
