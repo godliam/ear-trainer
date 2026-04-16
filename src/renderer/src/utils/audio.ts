@@ -90,6 +90,8 @@ function ensureSynth(): void {
 /** Ensure Tone.js audio context is started (call on first user interaction). */
 export async function initAudio(): Promise<void> {
   await Tone.start()
+  // Set master volume to +6dB for louder output
+  Tone.Destination.volume.value = 6
 }
 
 /** Set the current instrument. Disposes the previous synth. */

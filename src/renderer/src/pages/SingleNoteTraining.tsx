@@ -75,7 +75,7 @@ export default function SingleNoteTraining() {
   }, [s.currentCorrectMidi])
 
   const handleKeyClick = useCallback((midi: number) => {
-    if (s.phase !== 'waiting') return
+    if (s.phase !== 'waiting' && s.phase !== 'playing') return
     store.addSingleNoteSelection(midi)
     store.submitSingleNoteAnswer()
 
@@ -148,7 +148,7 @@ export default function SingleNoteTraining() {
             ) : (
               <>
                 <button className="btn-secondary" onClick={handleReplay}
-                  disabled={s.phase === 'playing'}>
+                  disabled={s.phase === 'playing' || s.phase === 'answered'}>
                   {t('training.replay')}
                 </button>
                 <button
@@ -199,7 +199,7 @@ export default function SingleNoteTraining() {
           <PianoKeyboard
             onKeyClick={handleKeyClick}
             highlightedKeys={highlights}
-            disabled={s.phase !== 'waiting'}
+            disabled={s.phase === 'idle' || s.phase === 'answered'}
             selectableRange={{ min: selectableMin, max: selectableMax }}
           />
         </div>

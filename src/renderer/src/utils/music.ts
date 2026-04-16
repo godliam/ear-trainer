@@ -392,7 +392,7 @@ export const OCTAVE_GROUPS: OctaveGroup[] = [
   { group: 7, minMidi: 105, maxMidi: 108, label: 'A7–C8' },
 ]
 
-export const DEFAULT_OCTAVE_GROUPS = [3, 4, 5]
+export const DEFAULT_OCTAVE_GROUPS = [3]
 
 export function getOctaveGroupRange(groups: number[]): { min: number; max: number } {
   if (groups.length === 0) return { min: 57, max: 80 }

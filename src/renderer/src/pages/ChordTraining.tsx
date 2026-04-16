@@ -68,9 +68,31 @@ export default function ChordTraining() {
   }, [s.currentCorrectMidi])
 
   const handleKeyClick = useCallback((midi: number) => {
-    if (s.phase !== 'waiting') return
+    if (s.phase !== 'waiting' && s.phase !== 'playing') return
     store.toggleChordSelection(midi)
-  }, [s.phase])
+    
+    // Auto submit when 3 notes are selected
+    const newSelection = s.userSelectedMidi.includes(midi)
+      ? s.userSelectedMidi.filter(m => m !== midi)
+      : [...s.userSelectedMidi, midi]
+    
+    if (newSelection.length === 3) {
+      // Recognize user's chord
+      const userChord = recognizeChord(newSelection)
+      const userChordName = userChord ? userChord.name : '—'
+      
+      store.submitChordAnswer(userChordName)
+      
+      setTimeout(() => {
+        playChord(s.currentCorrectMidi, '2n')
+      }, 300)
+      
+      autoNextRef.current = setTimeout(() => {
+        store.nextChordQuestion()
+        setTimeout(() => startQuestion(), 300)
+      }, 3000)
+    }
+  }, [s.phase, s.userSelectedMidi, s.currentCorrectMidi, startQuestion])
 
   const handleSubmit = useCallback(() => {
     if (s.userSelectedMidi.length !== 3) return
@@ -152,15 +174,9 @@ export default function ChordTraining() {
             ) : (
               <>
                 <button className="btn-secondary" onClick={handleReplay}
-                  disabled={s.phase === 'playing'}>
+                  disabled={s.phase === 'playing' || s.phase === 'answered'}>
                   {t('training.replay')}
                 </button>
-                {s.phase === 'waiting' && (
-                  <button className="btn-primary" onClick={handleSubmit}
-                    disabled={s.userSelectedMidi.length !== 3}>
-                    {t('training.submit')} ({s.userSelectedMidi.length}/3)
-                  </button>
-                )}
                 <button
                   className="btn-secondary"
                   style={{ color: 'var(--error)' }}
@@ -180,7 +196,7 @@ export default function ChordTraining() {
           )}
           {s.phase === 'waiting' && (
             <span style={{ color: 'var(--accent)', fontSize: '14px' }}>
-              {t('training.waiting')}
+              {t('training.waiting')} ({s.userSelectedMidi.length}/3)
             </span>
           )}
           {s.phase === 'answered' && (
@@ -213,8 +229,8 @@ export default function ChordTraining() {
           <PianoKeyboard
             onKeyClick={handleKeyClick}
             highlightedKeys={highlights}
-            selectedKeys={s.phase === 'waiting' ? s.userSelectedMidi : []}
-            disabled={s.phase !== 'waiting'}
+            selectedKeys={(s.phase === 'waiting' || s.phase === 'playing') ? s.userSelectedMidi : []}
+            disabled={s.phase === 'idle' || s.phase === 'answered'}
             selectableRange={{ min: selectableMin, max: selectableMax }}
           />
         </div>
