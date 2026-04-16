@@ -1,9 +1,23 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import LanguageSwitcher from './LanguageSwitcher'
+import InstrumentSelector from './InstrumentSelector'
 import { useTranslation } from 'react-i18next'
+import { useAppStore } from '../store/useAppStore'
+import { useEffect } from 'react'
+import { setInstrument as setAudioInstrument } from '../utils/audio'
 
 export default function Layout() {
   const { t } = useTranslation()
+  const { instrument, setInstrument } = useAppStore()
+
+  // Sync global instrument with audio system
+  useEffect(() => {
+    setAudioInstrument(instrument)
+  }, [instrument])
+
+  const handleInstrumentChange = (newInstrument: Parameters<typeof setInstrument>[0]) => {
+    setInstrument(newInstrument)
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -14,14 +28,18 @@ export default function Layout() {
         alignItems: 'center',
         padding: '0 24px',
         borderBottom: '1px solid var(--border)',
-        gap: '8px',
+        gap: '16px',
         flexShrink: 0
       }}>
         <NavLink to="/" style={navStyle}>{t('nav.home')}</NavLink>
         <NavLink to="/single-note" style={navStyle}>{t('nav.singleNote')}</NavLink>
         <NavLink to="/chord-training" style={navStyle}>{t('nav.chordTraining')}</NavLink>
         <NavLink to="/chord-id" style={navStyle}>{t('nav.chordId')}</NavLink>
-        <div style={{ marginLeft: 'auto' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <InstrumentSelector
+            value={instrument}
+            onChange={handleInstrumentChange}
+          />
           <LanguageSwitcher />
         </div>
       </nav>

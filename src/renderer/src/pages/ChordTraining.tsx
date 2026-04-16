@@ -2,13 +2,12 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import PianoKeyboard from '../components/PianoKeyboard'
 import StaffNotation from '../components/StaffNotation'
-import InstrumentSelector from '../components/InstrumentSelector'
 import KeySelector from '../components/KeySelector'
 import OctaveRangeSelector from '../components/OctaveRangeSelector'
 import TrainingSidebar from '../components/TrainingSidebar'
 import { useTrainingStore } from '../store/useTrainingStore'
 import { getDiatonicTriads, midiToNoteName, getOctaveGroupRange } from '../utils/music'
-import { initAudio, setInstrument, playChord, playTrainingSequence, stopAll } from '../utils/audio'
+import { initAudio, playChord, playTrainingSequence, stopAll } from '../utils/audio'
 import { recognizeChord } from '../utils/chordRecognition'
 
 export default function ChordTraining() {
@@ -41,8 +40,6 @@ export default function ChordTraining() {
   const startQuestion = useCallback(() => {
     if (cancelRef.current) { cancelRef.current(); cancelRef.current = null }
     if (autoNextRef.current) { clearTimeout(autoNextRef.current); autoNextRef.current = null }
-
-    setInstrument(s.instrument)
 
     // Get the octave range from selected groups
     const { min: minMidi, max: maxMidi } = getOctaveGroupRange(s.octaveGroups)
@@ -94,11 +91,6 @@ export default function ChordTraining() {
     }, 3000)
   }, [s.userSelectedMidi, s.currentCorrectMidi, startQuestion])
 
-  const handleInstrumentChange = useCallback((instrument: Parameters<typeof store.setChordInstrument>[0]) => {
-    store.setChordInstrument(instrument)
-    if (audioReady) setInstrument(instrument)
-  }, [audioReady])
-
   // Highlights
   const highlights: { midi: number; color: string }[] = []
   if (s.phase === 'answered') {
@@ -136,10 +128,6 @@ export default function ChordTraining() {
           flexWrap: 'wrap',
           background: 'var(--bg-secondary)'
         }}>
-          <InstrumentSelector
-            value={s.instrument}
-            onChange={handleInstrumentChange}
-          />
           <KeySelector
             value={s.keySignature}
             onChange={store.setChordKey}
@@ -152,35 +140,37 @@ export default function ChordTraining() {
             disabled={isTraining}
           />
 
-          {!audioReady ? (
-            <button className="btn-primary" onClick={handleInit}>
-              {t('training.start')}
-            </button>
-          ) : !isTraining ? (
-            <button className="btn-primary" onClick={startQuestion}>
-              {t('training.start')}
-            </button>
-          ) : (
-            <>
-              <button className="btn-secondary" onClick={handleReplay}
-                disabled={s.phase === 'playing'}>
-                {t('training.replay')}
+          <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px' }}>
+            {!audioReady ? (
+              <button className="btn-primary" onClick={handleInit}>
+                {t('training.start')}
               </button>
-              {s.phase === 'waiting' && (
-                <button className="btn-primary" onClick={handleSubmit}
-                  disabled={s.userSelectedMidi.length !== 3}>
-                  {t('training.submit')} ({s.userSelectedMidi.length}/3)
+            ) : !isTraining ? (
+              <button className="btn-primary" onClick={startQuestion}>
+                {t('training.start')}
+              </button>
+            ) : (
+              <>
+                <button className="btn-secondary" onClick={handleReplay}
+                  disabled={s.phase === 'playing'}>
+                  {t('training.replay')}
                 </button>
-              )}
-              <button
-                className="btn-secondary"
-                style={{ color: 'var(--error)' }}
-                onClick={stopTraining}
-              >
-                {t('training.stop')}
-              </button>
-            </>
-          )}
+                {s.phase === 'waiting' && (
+                  <button className="btn-primary" onClick={handleSubmit}
+                    disabled={s.userSelectedMidi.length !== 3}>
+                    {t('training.submit')} ({s.userSelectedMidi.length}/3)
+                  </button>
+                )}
+                <button
+                  className="btn-secondary"
+                  style={{ color: 'var(--error)' }}
+                  onClick={stopTraining}
+                >
+                  {t('training.stop')}
+                </button>
+              </>
+            )}
+          </div>
 
           {/* Status */}
           {s.phase === 'playing' && (
