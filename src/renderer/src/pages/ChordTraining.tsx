@@ -77,6 +77,12 @@ export default function ChordTraining() {
       : [...s.userSelectedMidi, midi]
     
     if (newSelection.length === 3) {
+      // Stop the training sequence playback immediately
+      if (cancelRef.current) {
+        cancelRef.current()
+        cancelRef.current = null
+      }
+      
       // Recognize user's chord
       const userChord = recognizeChord(newSelection)
       const userChordName = userChord ? userChord.name : '—'

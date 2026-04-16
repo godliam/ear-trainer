@@ -76,6 +76,13 @@ export default function SingleNoteTraining() {
 
   const handleKeyClick = useCallback((midi: number) => {
     if (s.phase !== 'waiting' && s.phase !== 'playing') return
+    
+    // Stop the training sequence playback immediately
+    if (cancelRef.current) {
+      cancelRef.current()
+      cancelRef.current = null
+    }
+    
     store.addSingleNoteSelection(midi)
     store.submitSingleNoteAnswer()
 

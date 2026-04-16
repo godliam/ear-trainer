@@ -13,21 +13,15 @@ let synth: Tone.PolySynth | Tone.PluckSynth | Tone.Synth | null = null
 // ---------------------------------------------------------------------------
 
 function buildPianoSynth(): Tone.PolySynth {
-  return new Tone.PolySynth(Tone.AMSynth, {
-    harmonicity: 2,
-    oscillator: { type: 'sine' },
-    envelope: {
-      attack: 0.01,
-      decay: 0.6,
-      sustain: 0.3,
-      release: 1.2
+  return new Tone.PolySynth(Tone.Synth, {
+    oscillator: {
+      type: 'triangle'
     },
-    modulation: { type: 'square' },
-    modulationEnvelope: {
-      attack: 0.01,
-      decay: 0.5,
-      sustain: 0.2,
-      release: 0.8
+    envelope: {
+      attack: 0.02,
+      decay: 0.3,
+      sustain: 0.4,
+      release: 1.5
     }
   }).toDestination()
 }
@@ -90,8 +84,8 @@ function ensureSynth(): void {
 /** Ensure Tone.js audio context is started (call on first user interaction). */
 export async function initAudio(): Promise<void> {
   await Tone.start()
-  // Set master volume to +6dB for louder output
-  Tone.Destination.volume.value = 6
+  // Set master volume to -8dB
+  Tone.Destination.volume.value = -8
 }
 
 /** Set the current instrument. Disposes the previous synth. */
